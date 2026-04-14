@@ -185,90 +185,156 @@ Begins execution loop
 
 ---
 
-🖥 Example Program
+🧭 ROADMAP: How This Becomes a Linux-capable Ternary System
 
-A simple kernel process:
+This project is intentionally structured as a stepping-stone toward running a Linux-like environment (and eventually LFS) on a ternary architecture.
 
-INC A
-INC A
-OUT A
-YIELD
+🟣 Phase 1 — Stabilize the Ternary SBC (CURRENT)
 
-Expected behavior:
+You already have:
 
-A increments to 2
+Ternary CPU
 
-Value is printed via UART
+Memory map (ROM/RAM/devices)
 
-Process yields control
+Bootloader chain
+
+Microkernel OS
+
+Cooperative scheduler
+
+
+Goal: ensure deterministic execution and stable ISA.
+
+
+---
+
+🔵 Phase 2 — Binary Compatibility Layer (CRITICAL STEP)
+
+Introduce a Ternary Binary Bridge Layer (TBBL):
+
+Virtual 8-bit CPU inside ternary system
+
+Byte-addressable memory abstraction
+
+Stack + registers + ABI model
+
+Syscall translation layer
+
+
+👉 This creates a “binary island” inside ternary hardware.
+
+Without this step, Linux cannot run.
+
+
+---
+
+🟡 Phase 3 — Virtual ISA Implementation
+
+Choose and implement a virtual CPU:
+
+Recommended options:
+
+RISC-V (preferred, clean and modern)
+
+x86_64 subset (heavier but authentic Linux path)
+
+
+Capabilities:
+
+Instruction decode loop
+
+Stack management
+
+Memory paging abstraction
+
+
+Result: a real binary execution environment.
+
+
+---
+
+🟢 Phase 4 — Linux Kernel Boot (VIRTUALIZED)
+
+Once VM exists:
+
+Load Linux kernel image
+
+Emulate hardware devices:
+
+UART terminal
+
+disk storage (file-backed block device)
+
+timer interrupts
+
+
+Map syscalls to VM layer
+
+
+Result:
+
+> Linux runs inside a virtual machine hosted by ternary hardware.
+
 
 
 
 ---
 
-🚀 Running the Simulator
+🟣 Phase 5 — Linux From Scratch (LFS)
 
-Requirements
+Now the system becomes fully usable for LFS:
 
-Python 3.9+
+Build toolchain (gcc/binutils)
+
+Install musl/glibc
+
+Construct root filesystem
+
+Boot init system
+
+Run shell environment
 
 
-Run
+At this stage:
 
-python ternary_sbc.py
+> Your ternary SBC is a hypervisor for a full Linux userland.
+
+
 
 
 ---
 
-🔬 Design Philosophy
+🔥 Final Vision
+
+The complete architecture becomes:
+
+Ternary CPU (hardware simulation)
+    ↓
+TBBL (binary translation layer)
+    ↓
+Virtual CPU (RISC-V / x86_64)
+    ↓
+Linux Kernel
+    ↓
+LFS Userland
+
+
+---
+
+🧠 Design Philosophy
 
 This project explores:
 
-Non-binary computing models (ternary logic)
+Non-binary computation models
 
-Alternative CPU architectures
+Virtual machine layering
 
-Minimal operating system design
+OS portability boundaries
 
-Bootloader + kernel separation
+Minimal kernel design
 
-Process scheduling in constrained systems
-
-
-
----
-
-🧠 Why ternary?
-
-Ternary logic theoretically offers:
-
-Higher information density per digit
-
-Different arithmetic efficiency characteristics
-
-Novel hardware design space
-
-
-This project treats ternary computing as a creative systems design tool, not a physical implementation.
-
-
----
-
-🧱 Future Extensions
-
-Possible upgrades:
-
-Preemptive multitasking
-
-Memory protection unit (user/kernel mode)
-
-Ternary compiler
-
-Interactive shell (UART terminal OS)
-
-Filesystem simulation
-
-ELF-like binary format for ternary code
+Alternative computer architecture stacks
 
 
 
@@ -278,16 +344,16 @@ ELF-like binary format for ternary code
 
 This is a fictional computing architecture simulator intended for educational and experimental purposes.
 
-It does not emulate real ternary hardware.
+It does not represent real ternary hardware or a production Linux port.
 
 
 ---
 
 📌 Summary
 
-A complete imaginary computing stack:
+A full experimental stack evolving from:
 
-> Ternary CPU → Bootloader → Microkernel → Scheduler → Processes → UART Shell (future)
+> Ternary CPU → Microkernel OS → Binary VM → Linux → LFS
 
 
 
